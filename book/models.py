@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
 from cloudinary.models import CloudinaryField
+from django import forms
+
 
 STATUS = ((0, "Draft"), (1, "Published"))
 
@@ -30,4 +32,9 @@ class Chapter(models.Model):
         return self.likes.count()
 
 
-# Create your models here.
+class Form(forms.ModelForm):
+    user = models.ForeignKey(
+        User, on_delete=models.DO_NOTHING, related_name="form_post"
+    )
+    upload_image = models.ImageField(upload_to="media/")
+
